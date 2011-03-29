@@ -1,7 +1,7 @@
 package edu.berkeley.waveclientsample;
 
-import edu.berkeley.androidwave.waveservice.IWaveServicePublic;
-import edu.berkeley.androidwave.waveservice.IWaveRecipeOutputDataListener;
+import edu.berkeley.androidwave.waveclient.IWaveServicePublic;
+import edu.berkeley.androidwave.waveclient.IWaveRecipeOutputDataListener;
 
 import android.app.Activity;
 import android.content.ComponentName;
