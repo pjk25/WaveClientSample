@@ -2,6 +2,7 @@ package edu.berkeley.waveclientsample;
 
 import edu.berkeley.androidwave.waveclient.IWaveServicePublic;
 import edu.berkeley.androidwave.waveclient.IWaveRecipeOutputDataListener;
+import edu.berkeley.androidwave.waveclient.WaveRecipeOutputDataImpl;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,7 +72,14 @@ public class WaveClientSample extends Activity
         public void onServiceConnected(ComponentName className, IBinder service) {
             mWaveService = IWaveServicePublic.Stub.asInterface(service);
             
-            mWaveService.registerRecipeOutputListener(outputListener, true);
+            try {
+                mWaveService.registerRecipeOutputListener(outputListener, true);
+            } catch (RemoteException e) {
+                // In this case the service has crashed before we could even
+                // do anything with it; we can count on soon being
+                // disconnected (and then reconnected if it can be restarted)
+                // so there is no need to do anything here.
+            }
         }
         
         public void onServiceDisconnected(ComponentName className) {
