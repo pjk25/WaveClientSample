@@ -9,9 +9,7 @@ import android.test.ActivityInstrumentationTestCase2;
  * how to write and extend Application tests.
  * <p/>
  * To run this test, you can type:
- * adb shell am instrument -w \
- * -e class edu.berkeley.waveclientsample.WaveClientSampleTest \
- * edu.berkeley.waveclientsample.tests/android.test.InstrumentationTestRunner
+ * adb shell am instrument -w -e class edu.berkeley.waveclientsample.WaveClientSampleTest edu.berkeley.waveclientsample.tests/android.test.InstrumentationTestRunner
  */
 public class WaveClientSampleTest extends ActivityInstrumentationTestCase2<WaveClientSample> {
 
@@ -25,5 +23,11 @@ public class WaveClientSampleTest extends ActivityInstrumentationTestCase2<WaveC
     public void testActivityTestCaseSetUpProperly() {
         Activity a = getActivity();
         assertNotNull("activity should be launched successfully", a);
+    }
+    
+    public void testBindSuccessful() {
+        WaveClientSample a = getActivity();
+        
+        assertTrue(a.isBound());
     }
 }

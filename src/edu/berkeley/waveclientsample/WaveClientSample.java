@@ -92,4 +92,8 @@ public class WaveClientSample extends Activity
             // update the log text
         }
     };
+    
+    public boolean isBound() {
+        return (mBound && (mWaveService != null));
+    }
 }
