@@ -36,15 +36,17 @@ public class WaveClientSample extends Activity
         authRequestButton = (Button) findViewById(R.id.auth_request_button);
         messageTextView = (TextView) findViewById(R.id.message_textview);
         
+        // authRequestButton.setOnClickListener(authRequestListener);
+
         // connect to the service
-        
+
         // check if we are authorized for the recipe and update the UI
         //  - if we are already authorized, let the user switch to the WaveUI
         //    to deauthorize
         //  - if we are not authorized, let the user request it
-        
+
         Intent i = new Intent(Intent.ACTION_MAIN);
-        i.setComponent(new ComponentName("edu.berkeley.androidwave.waveservice", "WaveService"));
+        i.setClassName("edu.berkeley.androidwave", "edu.berkeley.androidwave.waveservice.WaveService");
         if (bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
             mBound = true;
         } else {
