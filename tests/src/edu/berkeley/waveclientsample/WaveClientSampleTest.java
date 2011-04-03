@@ -1,5 +1,6 @@
 package edu.berkeley.waveclientsample;
 
+import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
 /**
@@ -18,4 +19,11 @@ public class WaveClientSampleTest extends ActivityInstrumentationTestCase2<WaveC
         super("edu.berkeley.waveclientsample", WaveClientSample.class);
     }
 
+    /**
+     * Verifies that activity under test can be launched.
+     */
+    public void testActivityTestCaseSetUpProperly() {
+        Activity a = getActivity();
+        assertNotNull("activity should be launched successfully", a);
+    }
 }
