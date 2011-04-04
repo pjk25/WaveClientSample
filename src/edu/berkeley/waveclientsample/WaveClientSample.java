@@ -23,6 +23,8 @@ import android.widget.Toast;
 public class WaveClientSample extends Activity
 {
     private static final String ACTION_WAVE_SERVICE = "edu.berkeley.androidwave.intent.action.WAVE_SERVICE";
+    private static final String ACTION_DID_AUTHORIZE = "edu.berkeley.androidwave.intent.action.DID_AUTHORIZE";
+    private static final String ACTION_DID_DENY = "edu.berkeley.androidwave.intent.action.DID_DENY";
     private static final int REQUEST_CODE_AUTH = 1;
     private final String RECIPE_ID = "edu.berkeley.waverecipe.AccelerometerMagnitude";
     
@@ -116,15 +118,19 @@ public class WaveClientSample extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_AUTH) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(WaveClientSample.this, "Authorization Successful!", Toast.LENGTH_SHORT).show();
+                if (data.getAction().equals(ACTION_DID_AUTHORIZE)) {
+                    Toast.makeText(WaveClientSample.this, "Authorization Successful!", Toast.LENGTH_SHORT).show();
                 
-                // reassign the auth button
-                authRequestButton.setOnClickListener(waveUiRequestListener);
-                authRequestButton.setEnabled(true);
+                    // reassign the auth button
+                    authRequestButton.setOnClickListener(waveUiRequestListener);
+                    authRequestButton.setEnabled(true);
                 
-                beginStreamingRecipeData();
+                    beginStreamingRecipeData();
+                } else {
+                    Toast.makeText(WaveClientSample.this, "Authorization Denied!", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(WaveClientSample.this, "Authorization Denied!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WaveClientSample.this, "Authorization process failed unexpectedly.", Toast.LENGTH_SHORT).show();
             }
         }
     }
