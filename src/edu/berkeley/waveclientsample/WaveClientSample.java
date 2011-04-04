@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 public class WaveClientSample extends Activity
 {
+    private static final String ACTION_WAVE_SERVICE = "edu.berkeley.androidwave.intent.action.WAVE_SERVICE";
     private static final int REQUEST_CODE_AUTH = 1;
     private final String RECIPE_ID = "edu.berkeley.waverecipe.AccelerometerMagnitude";
     
@@ -45,13 +46,7 @@ public class WaveClientSample extends Activity
 
         // connect to the service
 
-        // check if we are authorized for the recipe and update the UI
-        //  - if we are already authorized, let the user switch to the WaveUI
-        //    to deauthorize
-        //  - if we are not authorized, let the user request it
-
-        Intent i = new Intent(Intent.ACTION_MAIN);
-        i.setClassName("edu.berkeley.androidwave", "edu.berkeley.androidwave.waveservice.WaveService");
+        Intent i = new Intent(ACTION_WAVE_SERVICE);
         if (bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
             mBound = true;
             Toast.makeText(WaveClientSample.this, "Connected to WaveService", Toast.LENGTH_SHORT).show();
