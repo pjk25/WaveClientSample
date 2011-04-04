@@ -54,6 +54,7 @@ public class WaveClientSample extends Activity
         i.setClassName("edu.berkeley.androidwave", "edu.berkeley.androidwave.waveservice.WaveService");
         if (bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
             mBound = true;
+            Toast.makeText(WaveClientSample.this, "Connected to WaveService", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(getClass().getSimpleName(), "Could not bind with "+i);
             // TODO: replace this Toast with a dialog that allows quitting
@@ -65,6 +66,13 @@ public class WaveClientSample extends Activity
     @Override
     protected void onStop() {
         super.onStop();
+        
+        try {
+            mWaveService.registerRecipeOutputListener(outputListener, true);
+        } catch (RemoteException e) {
+            Log.d("WaveClientSample", "lost connection to the service");
+        }
+
         if (mBound) {
             unbindService(mConnection);
             mBound = false;
@@ -72,8 +80,6 @@ public class WaveClientSample extends Activity
     }
     
     private void afterBind() {
-        Toast.makeText(WaveClientSample.this, "Connected to WaveService", Toast.LENGTH_SHORT).show();
-        
         try {
             if (mWaveService.isAuthorized(RECIPE_ID)) {
                 Toast.makeText(WaveClientSample.this, "Already authorized for Recipe "+RECIPE_ID, Toast.LENGTH_SHORT).show();
@@ -100,8 +106,11 @@ public class WaveClientSample extends Activity
     }
     
     private void beginStreamingRecipeData() {
-        // should actually do that here
-        Toast.makeText(WaveClientSample.this, "NOT IMPLEMENTED YET!", Toast.LENGTH_LONG).show();
+        try {
+            mWaveService.registerRecipeOutputListener(outputListener, true);
+        } catch (RemoteException e) {
+            Log.d("WaveClientSample", "lost connection to the service");
+        }
     }
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -146,17 +155,7 @@ public class WaveClientSample extends Activity
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             mWaveService = IWaveServicePublic.Stub.asInterface(service);
-            
-            try {
-                mWaveService.registerRecipeOutputListener(outputListener, true);
-                
-                afterBind();
-            } catch (RemoteException e) {
-                // In this case the service has crashed before we could even
-                // do anything with it; we can count on soon being
-                // disconnected (and then reconnected if it can be restarted)
-                // so there is no need to do anything here.
-            }
+            afterBind();
         }
         
         public void onServiceDisconnected(ComponentName className) {
@@ -167,6 +166,7 @@ public class WaveClientSample extends Activity
     private IWaveRecipeOutputDataListener outputListener = new IWaveRecipeOutputDataListener.Stub() {
         public void receiveWaveRecipeOutputData(WaveRecipeOutputDataImpl wrOutput) {
             // update the log text
+            Toast.makeText(WaveClientSample.this, "NOT IMPLEMENTED YET!", Toast.LENGTH_LONG).show();
         }
     };
     
