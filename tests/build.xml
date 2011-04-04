@@ -52,6 +52,25 @@
     </target>
 -->
 
+    <!-- Requires that wave_recipe_sample.dir be set correctly in local.properties -->
+    <target name="install-recipe">
+        <!-- We need to copy the sample waverecipe into the right place -->
+        <echo>adb push ${wave_recipe_sample.dir}/bin/WaveRecipeSample-debug.apk /data/data/edu.berkeley.androidwave/app_waverecipes/cache/edu.berkeley.waverecipe.AccelerometerMagnitude.waverecipe</echo>
+        <exec executable="adb">
+            <arg value="push" />
+            <arg value="${wave_recipe_sample.dir}/bin/WaveRecipeSample-debug.apk" />
+            <arg value="/data/data/edu.berkeley.androidwave/app_waverecipes/cache/edu.berkeley.waverecipe.AccelerometerMagnitude.waverecipe" />
+        </exec>
+    </target>
+    <target name="uninstall-recipe">
+        <echo>adb shell rm /data/data/edu.berkeley.androidwave/app_waverecipes/cache/edu.berkeley.waverecipe.AccelerometerMagnitude.waverecipe</echo>
+        <exec executable="adb">
+            <arg value="shell" />
+            <arg value="rm" />
+            <arg value="/data/data/edu.berkeley.androidwave/app_waverecipes/cache/edu.berkeley.waverecipe.AccelerometerMagnitude.waverecipe" />
+        </exec>
+    </target>
+
     <!-- Execute the Android Setup task that will setup some properties
          specific to the target, and import the build rules files.
 
