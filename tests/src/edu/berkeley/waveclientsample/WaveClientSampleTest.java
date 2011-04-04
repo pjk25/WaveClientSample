@@ -1,6 +1,8 @@
 package edu.berkeley.waveclientsample;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 /**
@@ -12,9 +14,24 @@ import android.test.ActivityInstrumentationTestCase2;
  * adb shell am instrument -w -e class edu.berkeley.waveclientsample.WaveClientSampleTest edu.berkeley.waveclientsample.tests/android.test.InstrumentationTestRunner
  */
 public class WaveClientSampleTest extends ActivityInstrumentationTestCase2<WaveClientSample> {
+    
+    boolean waveInstalled;
 
     public WaveClientSampleTest() {
         super("edu.berkeley.waveclientsample", WaveClientSample.class);
+    }
+    
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        
+        PackageManager pm = getInstrumentation().getContext().getPackageManager();        
+        try {
+            PackageInfo pi = pm.getPackageInfo("edu.berkeley.androidwave", 0);
+            waveInstalled = (pi != null);
+        } catch (PackageManager.NameNotFoundException e) {
+            waveInstalled = false;
+        }
     }
 
     /**
@@ -25,9 +42,15 @@ public class WaveClientSampleTest extends ActivityInstrumentationTestCase2<WaveC
         assertNotNull("activity should be launched successfully", a);
     }
     
-    public void testBindSuccessful() {
+    /**
+     * tests that we bind to the WaveService if it is installed.
+     * 
+     * Ideally we should control that condition and test both ways, but since
+     * AndroidWave is another project, and this project depends on it, we do
+     * it this way.
+     */
+    public void testPreconditions() {
         WaveClientSample a = getActivity();
-        
-        assertTrue(a.isBound());
+        assertEquals("Should bind if wave is installed", waveInstalled, a.isBound());
     }
 }
