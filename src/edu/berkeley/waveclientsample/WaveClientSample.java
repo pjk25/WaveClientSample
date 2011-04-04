@@ -75,6 +75,11 @@ public class WaveClientSample extends Activity
     }
     
     private void afterBind() {
+        // check if we are authorized for the recipe and update the UI
+        //  - if we are already authorized, let the user switch to the WaveUI
+        //    to deauthorize
+        //  - if we are not authorized, let the user request it
+
         try {
             if (mWaveService.isAuthorized(RECIPE_ID)) {
                 Toast.makeText(WaveClientSample.this, "Already authorized for Recipe "+RECIPE_ID, Toast.LENGTH_SHORT).show();
@@ -131,7 +136,12 @@ public class WaveClientSample extends Activity
                 Intent i = mWaveService.getAuthorizationIntent(RECIPE_ID);
             
                 // then run it looking for a result
-                startActivityForResult(i, REQUEST_CODE_AUTH);
+                try {
+                    startActivityForResult(i, REQUEST_CODE_AUTH);
+                } catch (ActivityNotFoundException anfe) {
+                    anfe.printStackTrace();
+                    Toast.makeText(WaveClientSample.this, "Error launching authorization UI", Toast.LENGTH_SHORT).show();
+                }
             } catch (RemoteException e) {
                 Log.d("WaveClientSample", "lost connection to the service");
             }
@@ -143,7 +153,12 @@ public class WaveClientSample extends Activity
             // set up an intent to switch to the Wave UI
             Intent i = new Intent(Intent.ACTION_MAIN);
             i.setClassName("edu.berkeley.androidwave", "edu.berkeley.androidwave.waveui.AndroidWaveActivity");
-            startActivity(i);
+            try {
+                startActivity(i);
+            } catch (ActivityNotFoundException anfe) {
+                anfe.printStackTrace();
+                Toast.makeText(WaveClientSample.this, "Error launching Wave UI", Toast.LENGTH_SHORT).show();
+            }
         }
     };
     
