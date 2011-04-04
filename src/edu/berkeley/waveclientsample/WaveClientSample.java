@@ -122,6 +122,7 @@ public class WaveClientSample extends Activity
                     Toast.makeText(WaveClientSample.this, "Authorization Successful!", Toast.LENGTH_SHORT).show();
                 
                     // reassign the auth button
+                    authRequestButton.setText("Deauthorize in Wave UI");
                     authRequestButton.setOnClickListener(waveUiRequestListener);
                     authRequestButton.setEnabled(true);
                 
