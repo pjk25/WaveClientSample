@@ -39,6 +39,7 @@ public class WaveClientSample extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.main_activity_name);
         setContentView(R.layout.main);
         
         authRequestButton = (Button) findViewById(R.id.auth_request_button);
