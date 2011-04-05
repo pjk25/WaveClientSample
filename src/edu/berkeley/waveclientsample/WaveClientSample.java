@@ -44,10 +44,11 @@ public class WaveClientSample extends Activity
         authRequestButton = (Button) findViewById(R.id.auth_request_button);
         messageTextView = (TextView) findViewById(R.id.message_textview);
         
+        // disable the button until we have connected to the service
         authRequestButton.setEnabled(false);
+        authRequestButton.setOnClickListener(authRequestListener);
 
         // connect to the service
-
         Intent i = new Intent(ACTION_WAVE_SERVICE);
         if (bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
             mBound = true;
@@ -76,35 +77,10 @@ public class WaveClientSample extends Activity
         }
     }
     
-    private void afterBind() {
-        // check if we are authorized for the recipe and update the UI
-        //  - if we are already authorized, let the user switch to the WaveUI
-        //    to deauthorize
-        //  - if we are not authorized, let the user request it
-
-        try {
-            if (mWaveService.isAuthorized(RECIPE_ID)) {
-                Toast.makeText(WaveClientSample.this, "Already authorized for Recipe "+RECIPE_ID, Toast.LENGTH_SHORT).show();
-            
-                // we should configure the button to take us to the Wave UI
-                authRequestButton.setOnClickListener(waveUiRequestListener);
-                authRequestButton.setEnabled(true);
-            
-                // we should request that data be streamed and start displaying it in the log
-                beginStreamingRecipeData();
-            } else {
-                if (mWaveService.recipeExists(RECIPE_ID, false)) {
-                    authRequestButton.setOnClickListener(authRequestListener);
-                    authRequestButton.setEnabled(true);
-                } else {
-                    // TODO: replace this Toast with a dialog that allows quitting
-                    Toast.makeText(WaveClientSample.this, "WaveService can't find Recipe\n"+RECIPE_ID, Toast.LENGTH_SHORT).show();
-                    messageTextView.setText("ERROR:\n\nThe WaveService cannot locate Recipe "+RECIPE_ID+"\n\nIs that ID correct, and is the recipe server reachable?\n\nPlease address this issue and restart this Application.");
-                }
-            }
-        } catch (RemoteException e) {
-            Log.d("WaveClientSample", "lost connection to the service");
-        }
+    private void setButtonForWaveUi() {
+        authRequestButton.setText("Deauthorize in Wave UI");
+        authRequestButton.setOnClickListener(waveUiRequestListener);
+        authRequestButton.setEnabled(true);
     }
     
     private void beginStreamingRecipeData() {
@@ -120,12 +96,8 @@ public class WaveClientSample extends Activity
             if (resultCode == RESULT_OK) {
                 if (data.getAction().equals(ACTION_DID_AUTHORIZE)) {
                     Toast.makeText(WaveClientSample.this, "Authorization Successful!", Toast.LENGTH_SHORT).show();
-                
-                    // reassign the auth button
-                    authRequestButton.setText("Deauthorize in Wave UI");
-                    authRequestButton.setOnClickListener(waveUiRequestListener);
-                    authRequestButton.setEnabled(true);
-                
+                    
+                    setButtonForWaveUi();
                     beginStreamingRecipeData();
                 } else {
                     Toast.makeText(WaveClientSample.this, "Authorization Denied!", Toast.LENGTH_SHORT).show();
@@ -172,7 +144,26 @@ public class WaveClientSample extends Activity
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             mWaveService = IWaveServicePublic.Stub.asInterface(service);
-            afterBind();
+            
+            // enable the button now that the service is connected
+            authRequestButton.setEnabled(true);
+            
+            // check if we are authorized for the recipe and update the UI
+            //  - if we are already authorized, let the user switch to the WaveUI
+            //    to deauthorize
+            //  - if we are not authorized, let the user request it
+            try {
+                if (mWaveService.isAuthorized(RECIPE_ID)) {
+                    Toast.makeText(WaveClientSample.this, "Already authorized for Recipe "+RECIPE_ID, Toast.LENGTH_SHORT).show();
+                    
+                    // reconfigure the UI after auth
+                    setButtonForWaveUi();
+                    // we should request that data be streamed and start displaying it in the log
+                    beginStreamingRecipeData();
+                }
+            } catch (RemoteException e) {
+                Log.d("WaveClientSample", "lost connection to the service");
+            }
         }
         
         public void onServiceDisconnected(ComponentName className) {
