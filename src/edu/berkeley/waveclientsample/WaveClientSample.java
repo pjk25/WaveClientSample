@@ -67,7 +67,7 @@ public class WaveClientSample extends Activity
         super.onStop();
         
         try {
-            mWaveService.unregisterRecipeOutputListener(outputListener);
+            mWaveService.unregisterRecipeOutputListener(RECIPE_ID, outputListener);
         } catch (RemoteException e) {
             Log.d("WaveClientSample", "lost connection to the service");
         }
@@ -86,7 +86,7 @@ public class WaveClientSample extends Activity
     
     private void beginStreamingRecipeData() {
         try {
-            mWaveService.registerRecipeOutputListener(outputListener, true);
+            mWaveService.registerRecipeOutputListener(RECIPE_ID, outputListener);
         } catch (RemoteException e) {
             Log.d("WaveClientSample", "lost connection to the service");
         }
