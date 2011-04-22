@@ -27,6 +27,7 @@ public class WaveClientSample extends Activity
     private static final String ACTION_DID_DENY = "edu.berkeley.androidwave.intent.action.DID_DENY";
     private static final int REQUEST_CODE_AUTH = 1;
     private final String RECIPE_ID = "edu.berkeley.waverecipe.AccelerometerMagnitude";
+    private final String API_KEY = "snathtosoeaseseoadrc,h.bmte";
     
     private IWaveServicePublic mWaveService;
     private boolean mBound;
@@ -67,7 +68,7 @@ public class WaveClientSample extends Activity
         super.onStop();
         
         try {
-            mWaveService.unregisterRecipeOutputListener(RECIPE_ID, outputListener);
+            mWaveService.unregisterRecipeOutputListener(API_KEY, RECIPE_ID, outputListener);
         } catch (RemoteException e) {
             Log.d("WaveClientSample", "lost connection to the service");
         }
@@ -86,7 +87,7 @@ public class WaveClientSample extends Activity
     
     private void beginStreamingRecipeData() {
         try {
-            mWaveService.registerRecipeOutputListener(RECIPE_ID, outputListener);
+            mWaveService.registerRecipeOutputListener(API_KEY, RECIPE_ID, outputListener);
         } catch (RemoteException e) {
             Log.d("WaveClientSample", "lost connection to the service");
         }
@@ -113,7 +114,7 @@ public class WaveClientSample extends Activity
         public void onClick(View v) {
             try {
                 // get an auth intent from the service
-                Intent i = mWaveService.getAuthorizationIntent(RECIPE_ID);
+                Intent i = mWaveService.getAuthorizationIntent(RECIPE_ID, API_KEY);
             
                 // then run it looking for a result
                 try {
@@ -154,7 +155,7 @@ public class WaveClientSample extends Activity
             //    to deauthorize
             //  - if we are not authorized, let the user request it
             try {
-                if (mWaveService.isAuthorized(RECIPE_ID)) {
+                if (mWaveService.isAuthorized(API_KEY, RECIPE_ID)) {
                     Toast.makeText(WaveClientSample.this, "Already authorized for Recipe "+RECIPE_ID, Toast.LENGTH_SHORT).show();
                     
                     // reconfigure the UI after auth
