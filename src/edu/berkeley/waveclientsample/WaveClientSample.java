@@ -133,7 +133,7 @@ public class WaveClientSample extends Activity
         public void onClick(View v) {
             // set up an intent to switch to the Wave UI
             Intent i = new Intent(Intent.ACTION_MAIN);
-            i.setClassName("edu.berkeley.androidwave", "edu.berkeley.androidwave.waveui.AndroidWaveActivity");
+            i.setPackage("edu.berkeley.androidwave");
             try {
                 startActivity(i);
             } catch (ActivityNotFoundException anfe) {
