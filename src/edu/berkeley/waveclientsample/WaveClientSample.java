@@ -156,7 +156,7 @@ public class WaveClientSample extends Activity
             //  - if we are not authorized, let the user request it
             try {
                 if (mWaveService.isAuthorized(API_KEY, RECIPE_ID)) {
-                    Toast.makeText(WaveClientSample.this, "Already authorized for Recipe "+RECIPE_ID, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WaveClientSample.this, "Already authorized for Recipe\n"+RECIPE_ID, Toast.LENGTH_SHORT).show();
                     
                     // reconfigure the UI after auth
                     setButtonForWaveUi();
