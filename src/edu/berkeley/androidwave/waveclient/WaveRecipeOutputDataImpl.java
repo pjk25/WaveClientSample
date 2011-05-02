@@ -1,1 +1,1 @@
-/Volumes/WALL-E/Users/adrian/Git/berkeley/AndroidWaveProject/src/edu/berkeley/androidwave/waveclient/WaveRecipeOutputDataImpl.java
+../../../../../../AndroidWaveProject/src/edu/berkeley/androidwave/waveclient/WaveRecipeOutputDataImpl.java

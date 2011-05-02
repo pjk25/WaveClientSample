@@ -1,1 +1,1 @@
-/Volumes/WALL-E/Users/adrian/Git/berkeley/AndroidWaveProject/src/edu/berkeley/androidwave/waveclient/WaveRecipeOutputDescription.aidl
+../../../../../../AndroidWaveProject/src/edu/berkeley/androidwave/waveclient/WaveRecipeOutputDescription.aidl
