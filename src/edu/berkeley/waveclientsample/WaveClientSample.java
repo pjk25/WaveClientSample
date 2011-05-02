@@ -20,8 +20,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WaveClientSample extends Activity
-{
+public class WaveClientSample extends Activity {
+    
+    private static final String TAG = WaveClientSample.class.getSimpleName();
+    
     private static final String ACTION_WAVE_SERVICE = "edu.berkeley.androidwave.intent.action.WAVE_SERVICE";
     private static final String ACTION_DID_AUTHORIZE = "edu.berkeley.androidwave.intent.action.DID_AUTHORIZE";
     private static final String ACTION_DID_DENY = "edu.berkeley.androidwave.intent.action.DID_DENY";
@@ -131,6 +133,7 @@ public class WaveClientSample extends Activity
     
     private OnClickListener waveUiRequestListener = new OnClickListener() {
         public void onClick(View v) {
+            // TODO: make this call up the specific authorization via ACTION_EDIT + appropriate extras
             // set up an intent to switch to the Wave UI
             Intent i = new Intent(Intent.ACTION_MAIN);
             i.setPackage("edu.berkeley.androidwave");
@@ -163,8 +166,8 @@ public class WaveClientSample extends Activity
                     // we should request that data be streamed and start displaying it in the log
                     beginStreamingRecipeData();
                 }
-            } catch (RemoteException e) {
-                Log.d("WaveClientSample", "lost connection to the service");
+            } catch (RemoteException re) {
+                Log.d(TAG, "lost connection to the service", re);
             }
         }
         
