@@ -107,7 +107,7 @@ public class WaveClientSample extends Activity {
                     Toast.makeText(WaveClientSample.this, "Authorization Denied!", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(WaveClientSample.this, "Authorization process failed unexpectedly.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WaveClientSample.this, "Authorization process canceled.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -150,14 +150,14 @@ public class WaveClientSample extends Activity {
         public void onServiceConnected(ComponentName className, IBinder service) {
             mWaveService = IWaveServicePublic.Stub.asInterface(service);
             
-            // enable the button now that the service is connected
-            authRequestButton.setEnabled(true);
-            
             // check if we are authorized for the recipe and update the UI
             //  - if we are already authorized, let the user switch to the WaveUI
             //    to deauthorize
             //  - if we are not authorized, let the user request it
             try {
+                // enable the button now that the service is connected
+                authRequestButton.setEnabled(true);
+                
                 if (mWaveService.isAuthorized(API_KEY, RECIPE_ID)) {
                     Toast.makeText(WaveClientSample.this, "Already authorized for Recipe\n"+RECIPE_ID, Toast.LENGTH_SHORT).show();
                     
