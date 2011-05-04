@@ -1,3 +1,11 @@
+// 
+//  WaveClientSampleTest.java
+//  WaveClientSample
+//  
+//  Created by Philip Kuryloski on 2011-04-02.
+//  Copyright 2011 University of California, Berkeley. All rights reserved.
+// 
+
 package edu.berkeley.waveclientsample;
 
 import android.app.Activity;

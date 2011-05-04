@@ -1,3 +1,11 @@
+// 
+//  WaveClientSample.java
+//  WaveClientSample
+//  
+//  Created by Philip Kuryloski on 2011-03-22.
+//  Copyright 2011 University of California, Berkeley. All rights reserved.
+// 
+
 package edu.berkeley.waveclientsample;
 
 import edu.berkeley.androidwave.waveclient.IWaveServicePublic;
