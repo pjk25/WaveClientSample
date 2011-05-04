@@ -78,7 +78,7 @@ public class WaveClientSample extends Activity {
         super.onStop();
         
         try {
-            mWaveService.unregisterRecipeOutputListener(API_KEY, RECIPE_ID, outputListener);
+            mWaveService.unregisterRecipeOutputListener(API_KEY, RECIPE_ID);
         } catch (RemoteException e) {
             Log.d("WaveClientSample", "lost connection to the service");
         }
@@ -97,7 +97,10 @@ public class WaveClientSample extends Activity {
     
     private void beginStreamingRecipeData() {
         try {
-            mWaveService.registerRecipeOutputListener(API_KEY, RECIPE_ID, outputListener);
+            boolean didRegister = mWaveService.registerRecipeOutputListener(API_KEY, RECIPE_ID, outputListener);
+            if (!didRegister) {
+                Toast.makeText(WaveClientSample.this, "Error requesting recipe data stream.", Toast.LENGTH_SHORT).show();
+            }
         } catch (RemoteException e) {
             Log.d("WaveClientSample", "lost connection to the service");
         }
@@ -187,7 +190,7 @@ public class WaveClientSample extends Activity {
     private IWaveRecipeOutputDataListener outputListener = new IWaveRecipeOutputDataListener.Stub() {
         public void receiveWaveRecipeOutputData(WaveRecipeOutputDataImpl wrOutput) {
             // update the log text
-            Toast.makeText(WaveClientSample.this, "NOT IMPLEMENTED YET!", Toast.LENGTH_LONG).show();
+            Toast.makeText(WaveClientSample.this, "Got "+wrOutput, Toast.LENGTH_LONG).show();
         }
     };
     
