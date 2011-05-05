@@ -189,8 +189,15 @@ public class WaveClientSample extends Activity {
     
     private IWaveRecipeOutputDataListener outputListener = new IWaveRecipeOutputDataListener.Stub() {
         public void receiveWaveRecipeOutputData(WaveRecipeOutputDataImpl wrOutput) {
+            Log.d(TAG, "IWaveRecipeOutputDataListener.Stub got "+wrOutput);
             // update the log text
-            Toast.makeText(WaveClientSample.this, "Got "+wrOutput, Toast.LENGTH_LONG).show();
+            final WaveRecipeOutputDataImpl o = wrOutput;
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    messageTextView.setText("Got "+o);
+                    // Toast.makeText(WaveClientSample.this, "Got "+o, Toast.LENGTH_LONG).show();
+                }
+            });
         }
     };
     
