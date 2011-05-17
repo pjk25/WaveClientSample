@@ -10,7 +10,7 @@ package edu.berkeley.waveclientsample;
 
 import edu.berkeley.androidwave.waveclient.IWaveServicePublic;
 import edu.berkeley.androidwave.waveclient.IWaveRecipeOutputDataListener;
-import edu.berkeley.androidwave.waveclient.WaveRecipeOutputDataImpl;
+import edu.berkeley.androidwave.waveclient.ParcelableWaveRecipeOutputData;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -188,10 +188,10 @@ public class WaveClientSample extends Activity {
     };
     
     private IWaveRecipeOutputDataListener outputListener = new IWaveRecipeOutputDataListener.Stub() {
-        public void receiveWaveRecipeOutputData(WaveRecipeOutputDataImpl wrOutput) {
+        public void receiveWaveRecipeOutputData(ParcelableWaveRecipeOutputData wrOutput) {
             Log.d(TAG, "IWaveRecipeOutputDataListener.Stub got "+wrOutput);
             // update the log text
-            final WaveRecipeOutputDataImpl o = wrOutput;
+            final ParcelableWaveRecipeOutputData o = wrOutput;
             runOnUiThread(new Runnable() {
                 public void run() {
                     messageTextView.setText("Got "+o);
