@@ -1,1 +1,0 @@
-../../../../../../AndroidWaveProject/src/edu/berkeley/androidwave/waveclient/WaveRecipeAuthorizationInfo.java
