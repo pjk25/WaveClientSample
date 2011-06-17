@@ -189,7 +189,7 @@ public class WaveClientSample extends Activity {
     
     private IWaveRecipeOutputDataListener outputListener = new IWaveRecipeOutputDataListener.Stub() {
         public void receiveWaveRecipeOutputData(ParcelableWaveRecipeOutputData wrOutput) {
-            Log.d(TAG, "IWaveRecipeOutputDataListener.Stub got "+wrOutput);
+            // Log.v(TAG, "IWaveRecipeOutputDataListener.Stub got "+wrOutput);
             // update the log text
             final ParcelableWaveRecipeOutputData o = wrOutput;
             runOnUiThread(new Runnable() {
