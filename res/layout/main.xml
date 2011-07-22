@@ -11,12 +11,12 @@
     android:text="This is a sample AndroidWave application"
     />
 <Button
-    android:id="@+id/auth_request_button"
+    android:id="@+id/start_button"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16px"
     android:layout_marginRight="16px"
-    android:text="Request Authorization for Accelerometer Magnitude Recipe"
+    android:text="Start"
     />
 <TextView
     android:id="@+id/message_textview"
